@@ -10,23 +10,10 @@ namespace Bank.Persistance.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "logins",
-                columns: table => new
-                {
-                    LoginId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_logins", x => x.LoginId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "customers",
                 columns: table => new
                 {
-                    CustomerId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -37,49 +24,61 @@ namespace Bank.Persistance.Migrations
                     PhoneNumber = table.Column<long>(type: "bigint", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Adress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LoginId = table.Column<int>(type: "int", nullable: false)
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_customers", x => x.CustomerId);
-                    table.ForeignKey(
-                        name: "FK_customers_logins_LoginId",
-                        column: x => x.LoginId,
-                        principalTable: "logins",
-                        principalColumn: "LoginId",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_customers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "accounts",
                 columns: table => new
                 {
-                    AccountId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Balance = table.Column<float>(type: "real", nullable: false),
-                    CustomersCustomerId = table.Column<int>(type: "int", nullable: false)
+                    CustomersId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_accounts", x => x.AccountId);
+                    table.PrimaryKey("PK_accounts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_accounts_customers_CustomersCustomerId",
-                        column: x => x.CustomersCustomerId,
+                        name: "FK_accounts_customers_CustomersId",
+                        column: x => x.CustomersId,
                         principalTable: "customers",
-                        principalColumn: "CustomerId",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "logins",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CustomersId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_logins", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_logins_customers_CustomersId",
+                        column: x => x.CustomersId,
+                        principalTable: "customers",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_accounts_CustomersCustomerId",
+                name: "IX_accounts_CustomersId",
                 table: "accounts",
-                column: "CustomersCustomerId");
+                column: "CustomersId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_customers_LoginId",
-                table: "customers",
-                column: "LoginId",
-                unique: true);
+                name: "IX_logins_CustomersId",
+                table: "logins",
+                column: "CustomersId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -88,10 +87,10 @@ namespace Bank.Persistance.Migrations
                 name: "accounts");
 
             migrationBuilder.DropTable(
-                name: "customers");
+                name: "logins");
 
             migrationBuilder.DropTable(
-                name: "logins");
+                name: "customers");
         }
     }
 }

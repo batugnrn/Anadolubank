@@ -8,11 +8,8 @@ using System.Threading.Tasks;
 
 namespace Bank.Domain.Entities
 {
-    public class Login
+    public class Login:Base
     {
-        public int LoginId { get; set; }
-        [Required]
-        public string Password { get; set; }
         public Customers Customers { get; set; }
     }
 }

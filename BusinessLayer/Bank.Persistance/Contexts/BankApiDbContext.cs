@@ -14,5 +14,21 @@ namespace Bank.Persistance.Contexts
         public DbSet<Customers> customers { get; set; }
         public DbSet<Login> logins { get; set; }
         public DbSet<Account> accounts { get; set; }
+
+        //public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        //{
+
+        //    var datas = ChangeTracker.Entries<Base>();
+        //    foreach (var item in datas) {
+        //        var result = item.State switch
+        //        {
+        //            EntityState.Added => item.Entity.
+        //            default:
+        //        };
+        //    }
+        //    return base.SaveChangesAsync(cancellationToken);
+        //}
+
+
     }
 }

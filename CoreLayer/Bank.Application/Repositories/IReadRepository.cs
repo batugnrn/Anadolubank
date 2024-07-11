@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bank.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Bank.Application.Repositories
 {
-    public interface IReadRepository<type> : IRepository<type> where type : class  //select sorgu işlemleri
+    public interface IReadRepository<type> : IRepository<type> where type : Base  //select sorgu işlemleri
     {
         IQueryable<type> GetAll();         /// tüm elemanları getir
         IQueryable<type> GetWhere(Expression<Func<type, bool>> method);

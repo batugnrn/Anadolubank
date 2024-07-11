@@ -17,39 +17,39 @@ namespace Bank.Persistance.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.31")
+                .HasAnnotation("ProductVersion", "6.0.32")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("Bank.Domain.Entities.Account", b =>
                 {
-                    b.Property<int>("AccountId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<float>("Balance")
                         .HasColumnType("real");
 
-                    b.Property<int>("CustomersCustomerId")
+                    b.Property<int>("CustomersId")
                         .HasColumnType("int");
 
-                    b.HasKey("AccountId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("CustomersCustomerId");
+                    b.HasIndex("CustomersId");
 
                     b.ToTable("accounts");
                 });
 
             modelBuilder.Entity("Bank.Domain.Entities.Customers", b =>
                 {
-                    b.Property<int>("CustomerId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Adress")
                         .IsRequired()
@@ -70,10 +70,11 @@ namespace Bank.Persistance.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LoginId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -88,27 +89,25 @@ namespace Bank.Persistance.Migrations
                         .HasMaxLength(11)
                         .HasColumnType("bigint");
 
-                    b.HasKey("CustomerId");
-
-                    b.HasIndex("LoginId")
-                        .IsUnique();
+                    b.HasKey("Id");
 
                     b.ToTable("customers");
                 });
 
             modelBuilder.Entity("Bank.Domain.Entities.Login", b =>
                 {
-                    b.Property<int>("LoginId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LoginId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CustomersId")
+                        .HasColumnType("int");
 
-                    b.HasKey("LoginId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomersId");
 
                     b.ToTable("logins");
                 });
@@ -117,28 +116,22 @@ namespace Bank.Persistance.Migrations
                 {
                     b.HasOne("Bank.Domain.Entities.Customers", "Customers")
                         .WithMany()
-                        .HasForeignKey("CustomersCustomerId")
+                        .HasForeignKey("CustomersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Customers");
                 });
 
-            modelBuilder.Entity("Bank.Domain.Entities.Customers", b =>
+            modelBuilder.Entity("Bank.Domain.Entities.Login", b =>
                 {
-                    b.HasOne("Bank.Domain.Entities.Login", "Login")
-                        .WithOne("Customers")
-                        .HasForeignKey("Bank.Domain.Entities.Customers", "LoginId")
+                    b.HasOne("Bank.Domain.Entities.Customers", "Customers")
+                        .WithMany()
+                        .HasForeignKey("CustomersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Login");
-                });
-
-            modelBuilder.Entity("Bank.Domain.Entities.Login", b =>
-                {
-                    b.Navigation("Customers")
-                        .IsRequired();
+                    b.Navigation("Customers");
                 });
 #pragma warning restore 612, 618
         }

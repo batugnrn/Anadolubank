@@ -9,10 +9,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Bank.Domain.Entities
 {
-    public class Customers
+    public class Customers:Base
     {
-        [Key]
-        public int CustomerId { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
@@ -24,7 +22,7 @@ namespace Bank.Domain.Entities
         public long Tcno { get; set; }
         [Required]
         public string Birthday { get; set; }
-        public DateTime CreatedDate { get; set;}
+        public DateTime CreatedDate { get; set;} = DateTime.Now;
         [Required]
         [DataType(DataType.PhoneNumber)]
         public long PhoneNumber { get; set; }
@@ -34,8 +32,8 @@ namespace Bank.Domain.Entities
         [Required]
         public string Adress { get; set;}
         ///public ICollection<Account> Accounts { get; set; }
-        public int LoginId { get; set; }
-        public Login Login { get; set; }
+        [Required]
+        public string Password { get; set; }
         ///
 
     }
