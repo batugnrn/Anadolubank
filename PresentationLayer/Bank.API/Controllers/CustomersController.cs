@@ -12,31 +12,14 @@ namespace Bank.API.Controllers
     public class CustomersController : ControllerBase
     {
        
-        //private readonly ICustomerService _customerService;
         private readonly ICustomerReadRepository _customerReadRepository;
         private readonly ICustomerWriteRepository _customerWriteRepository;
         public CustomersController(ICustomerReadRepository customerReadRepository, ICustomerWriteRepository customerWriteRepository)
         {
-          //  _customerService = customerService;
             _customerReadRepository = customerReadRepository;
             _customerWriteRepository = customerWriteRepository;
-        }
-        //[HttpGet]
-        //public IActionResult GetCustomers()
-        //{
-        //    var customer = _customerService.GetCustomers();
-        //    return Ok(customer);
-        //}
-        //[HttpGet]
-        //public async Task Get()  
-        //{
-        //    await _customerWriteRepository.AddRangeAsync(new()
-        //    {
-        //        new() {Adress = "kkkkkkk", Birthday="11.11.1986", Email="afse@fd.gr", Gender="male",
-        //        Name= "kkkk",  Surname= "surname6", PhoneNumber=05555555555, Tcno=11111111111, Password="123aa"},
-        //    });
-        //    var count = await _customerWriteRepository.SaveAsync();
-        //}
+        }   
+        
         [HttpGet]
         public async Task<IActionResult> GetCustomers()
         {
