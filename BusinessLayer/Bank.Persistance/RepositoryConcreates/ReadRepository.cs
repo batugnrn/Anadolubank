@@ -24,8 +24,14 @@ namespace Bank.Persistance.RepositoryConcreates
         public IQueryable<type> GetAll()
         => Table;
 
+        public int GetAllCount()
+        {
+            return Table.Count();
+        }
+
         public async Task<type> GetByIdAsync(string id)
-        => await Table.FirstOrDefaultAsync(data => data.Id == int.Parse(id));
+        => await Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id));
+
 
         public async Task<type> GetSingleAsync(Expression<Func<type, bool>> method)
         => await Table.FirstOrDefaultAsync(method);

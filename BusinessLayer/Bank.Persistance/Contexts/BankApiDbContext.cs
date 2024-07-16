@@ -5,10 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bank.Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Bank.Domain.Entities.Identity;
 
 namespace Bank.Persistance.Contexts
 {
-    public class BankApiDbContext : DbContext
+    public class BankApiDbContext : IdentityDbContext<AppUser,AppRole,string>
     {
         public BankApiDbContext(DbContextOptions options) : base(options) { }
         public DbSet<Customers> customers { get; set; }

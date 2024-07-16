@@ -9,7 +9,7 @@ namespace Bank.Domain.Entities
 {
     public class Base
     {
-        [Key]
-        public int Id { get; set; }
+        
+        public Guid Id { get; set; }
     }
 }

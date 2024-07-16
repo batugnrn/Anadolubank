@@ -12,6 +12,7 @@ namespace Bank.Application.Repositories
     {
         IQueryable<type> GetAll();         /// tüm elemanları getir
         IQueryable<type> GetWhere(Expression<Func<type, bool>> method);
+        public int GetAllCount();
         Task<type> GetSingleAsync(Expression<Func<type, bool>> method);  // şartı karşılayan ilk eleman
         Task<type> GetByIdAsync(string id);
     }

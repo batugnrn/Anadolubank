@@ -16,6 +16,7 @@ using Bank.Application.Repositories.LoginRepository;
 using Bank.Persistance.RepositoryConcreates.LoginConcreates;
 using Bank.Application.Repositories.AccountRepository;
 using Bank.Persistance.RepositoryConcreates.AccountConcreates;
+using Bank.Domain.Entities.Identity;
 
 namespace Bank.Persistance
 {
@@ -27,8 +28,9 @@ namespace Bank.Persistance
 
             //service.AddDbContext<BankApiDbContext>(options => options.UseNpgsql("Server = localhost; Port=5432; Database=BankDB; User Id = postgres; Password=admin;"));
             service.AddDbContext<BankApiDbContext>(options =>
-            options.UseSqlServer(@"Server=(localdb)\mssqllocaldb; Database=BankDB3; Trusted_Connection=True;"),ServiceLifetime.Singleton);
-            
+            options.UseSqlServer(@"Server=(localdb)\mssqllocaldb; Database=BankDB4; Trusted_Connection=True;"),ServiceLifetime.Singleton);
+            service.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<BankApiDbContext>();
+
             service.AddScoped<ICustomerReadRepository, CustomerReadRepository>();
             service.AddScoped<ICustomerWriteRepository, CustomerWriteRepository>();
             service.AddScoped<ILoginReadRepository, LoginReadRepository>();
