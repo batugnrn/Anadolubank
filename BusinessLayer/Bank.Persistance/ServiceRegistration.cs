@@ -38,7 +38,7 @@ namespace Bank.Persistance
             service.AddScoped<IAccountReadRepository, AccountReadRepository>();
             service.AddScoped<IAccountWriteRepository, AccountWriteRepository>();
 
-
+            
 
 
 

@@ -1,4 +1,6 @@
-﻿using Bank.Application.Repositories.CustomerRepository;
+﻿using Bank.Application.Abstractions;
+using Bank.Application.DTOs;
+using Bank.Application.Repositories.CustomerRepository;
 using Bank.Application.ViewModels.Customers;
 using Bank.Domain.Entities;
 using Bank.Domain.Entities.Identity;
@@ -17,20 +19,21 @@ namespace Bank.API.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private ICustomerReadRepository _customerReadRepository;
-        public LoginController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ICustomerReadRepository customerReadRepository)
+        private readonly IToken _token;
+        public LoginController(IToken token,UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ICustomerReadRepository customerReadRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _customerReadRepository = customerReadRepository;
+            _token = token;
         }
 
         [HttpPost]
         public async Task<IActionResult> Login(VmCreateAppUser user)
         {
-            Customers custom;
-            string id = "";
-            custom = _customerReadRepository.GetWhere(x => x.Tcno.ToString() == user.Tcno).FirstOrDefault();
-            id = custom.Id.ToString();
+           
+            Customers custom = _customerReadRepository.GetWhere(x => x.Tcno.ToString() == user.Tcno).FirstOrDefault();
+            string id = custom.Id.ToString();
 
 
             AppUser userr = await _userManager.FindByIdAsync(id);
@@ -40,7 +43,11 @@ namespace Bank.API.Controllers
             }
             Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.CheckPasswordSignInAsync(userr, user.Password, false);
             if (result.Succeeded) {
-                throw new Exception("Kullanıcı var");
+               Token token = _token.CreateToken(5);
+                
+
+                // throw new Exception("Kullanıcı başarılı giriş yaptı.");
+                return Ok(token.AccessToken.ToString());
             }
             return Ok();
         }
