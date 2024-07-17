@@ -10,6 +10,20 @@ namespace Bank.Persistance.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "accounts",
+                columns: table => new
+                {
+                    AccountNumber = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Balance = table.Column<float>(type: "real", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_accounts", x => x.AccountNumber);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -63,11 +77,19 @@ namespace Bank.Persistance.Migrations
                     PhoneNumber = table.Column<long>(type: "bigint", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Adress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AccountNumber = table.Column<int>(type: "int", nullable: false),
+                    AccountNumber1 = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_customers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_customers_accounts_AccountNumber1",
+                        column: x => x.AccountNumber1,
+                        principalTable: "accounts",
+                        principalColumn: "AccountNumber",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -177,25 +199,6 @@ namespace Bank.Persistance.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "accounts",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Balance = table.Column<float>(type: "real", nullable: false),
-                    CustomersId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_accounts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_accounts_customers_CustomersId",
-                        column: x => x.CustomersId,
-                        principalTable: "customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "logins",
                 columns: table => new
                 {
@@ -212,11 +215,6 @@ namespace Bank.Persistance.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_accounts_CustomersId",
-                table: "accounts",
-                column: "CustomersId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -258,6 +256,11 @@ namespace Bank.Persistance.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_customers_AccountNumber1",
+                table: "customers",
+                column: "AccountNumber1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_logins_CustomersId",
                 table: "logins",
                 column: "CustomersId");
@@ -265,9 +268,6 @@ namespace Bank.Persistance.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "accounts");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -294,6 +294,9 @@ namespace Bank.Persistance.Migrations
 
             migrationBuilder.DropTable(
                 name: "customers");
+
+            migrationBuilder.DropTable(
+                name: "accounts");
         }
     }
 }

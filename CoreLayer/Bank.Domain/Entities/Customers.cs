@@ -34,7 +34,7 @@ namespace Bank.Domain.Entities
         ///public ICollection<Account> Accounts { get; set; }
         [Required]
         public string Password { get; set; }
-        ///
-
+        public int AccountNumber { get; set; }
+        public Account Account { get; set; }
     }
 }

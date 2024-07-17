@@ -24,19 +24,19 @@ namespace Bank.Persistance.Migrations
 
             modelBuilder.Entity("Bank.Domain.Entities.Account", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("AccountNumber")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountNumber"), 1L, 1);
 
                     b.Property<float>("Balance")
                         .HasColumnType("real");
 
-                    b.Property<Guid>("CustomersId")
+                    b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomersId");
+                    b.HasKey("AccountNumber");
 
                     b.ToTable("accounts");
                 });
@@ -46,6 +46,12 @@ namespace Bank.Persistance.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AccountNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AccountNumber1")
+                        .HasColumnType("int");
 
                     b.Property<string>("Adress")
                         .IsRequired()
@@ -86,6 +92,8 @@ namespace Bank.Persistance.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AccountNumber1");
 
                     b.ToTable("customers");
                 });
@@ -308,15 +316,15 @@ namespace Bank.Persistance.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Bank.Domain.Entities.Account", b =>
+            modelBuilder.Entity("Bank.Domain.Entities.Customers", b =>
                 {
-                    b.HasOne("Bank.Domain.Entities.Customers", "Customers")
+                    b.HasOne("Bank.Domain.Entities.Account", "Account")
                         .WithMany()
-                        .HasForeignKey("CustomersId")
+                        .HasForeignKey("AccountNumber1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Customers");
+                    b.Navigation("Account");
                 });
 
             modelBuilder.Entity("Bank.Domain.Entities.Login", b =>

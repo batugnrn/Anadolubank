@@ -38,35 +38,43 @@ namespace Bank.API.Controllers
         public async Task<IActionResult> PostCustomer(VmCreateCustomer model)
         {
             Guid guid = Guid.NewGuid();
-            await _customerWriteRepository.AddAsync(new()
+            var result = await _userManager.CreateAsync(new()
             {
-                Id = guid,
-                Name = model.Name,
-                Surname = model.Surname,
-                Gender = model.Gender,
-                Email = model.Email,
-                Birthday = model.Birthday,
-                Adress = model.Adress,
-                PhoneNumber = model.Phone,
-                Tcno = model.Tcno,
-                Password = model.Password,
-
-            });
-            await _customerWriteRepository.SaveAsync();
-
-            var result =  await _userManager.CreateAsync(new() {
                 Id = guid.ToString(),
                 Tcno = model.Tcno.ToString(),
                 PhoneNumber = model.Phone.ToString(),
                 Email = model.Email.ToString(),
-                UserName = model.Name.ToString(),
+                UserName = guid.ToString(),
 
-            },model.Password.ToString());
-            
-            if (result.Succeeded) {
+            }, model.Password.ToString());
+
+            if (result.Succeeded)
+            {
+                await _customerWriteRepository.AddAsync(new()
+                {
+                    Id = guid,
+                    Name = model.Name,
+                    Surname = model.Surname,
+                    Gender = model.Gender,
+                    Email = model.Email,
+                    Birthday = model.Birthday,
+                    Adress = model.Adress,
+                    PhoneNumber = model.Phone,
+                    Tcno = model.Tcno,
+                    Password = model.Password,
+                    Account = new()
+                     {
+                        Id = guid,
+                        Balance = 0,
+                     }
+
+                });
+                await _customerWriteRepository.SaveAsync();
                 return Ok();
             }
-            else { return BadRequest(); }
+            else { return BadRequest(result); }
+
+            
         }
         [HttpPut]
         public async Task<IActionResult> PutCustomer(VmCreateCustomer model, string id)

@@ -41,6 +41,7 @@ namespace Bank.Persistance.RepositoryConcreates
         public async Task<bool> RemoveAsync(string id)
         {
            type model = await Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id)); 
+            
            return Remove(model);
         }
         public bool RemoveRange(List<type> models)
