@@ -47,10 +47,16 @@ namespace Bank.API.Controllers
                 PhoneNumber = model.Phone.ToString(),
                 Email = model.Email.ToString(),
                 UserName = guid.ToString(),
+<<<<<<< HEAD
                 
 
             }, model.Password.ToString());
             
+=======
+
+            }, model.Password.ToString());
+
+>>>>>>> c4824986fd69203b8ed3115c5176ec8b71a6932a
             if (result.Succeeded)
             {
                 await _customerWriteRepository.AddAsync(new()
@@ -73,10 +79,13 @@ namespace Bank.API.Controllers
 
                 });
                 await _customerWriteRepository.SaveAsync();
+<<<<<<< HEAD
 
                 //AppUser appUser = await _userManager.FindByIdAsync(guid.ToString());
                 //await _userManager.AddToRoleAsync(appUser,"Customer");
 
+=======
+>>>>>>> c4824986fd69203b8ed3115c5176ec8b71a6932a
                 return Ok();
             }
             else { return BadRequest(result); }
