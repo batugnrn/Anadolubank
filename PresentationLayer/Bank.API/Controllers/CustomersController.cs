@@ -14,11 +14,13 @@ namespace Bank.API.Controllers
     public class CustomersController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<AppRole> _roleManager;
         private readonly ICustomerReadRepository _customerReadRepository;
         private readonly ICustomerWriteRepository _customerWriteRepository;
-        public CustomersController(ICustomerReadRepository customerReadRepository, ICustomerWriteRepository customerWriteRepository, UserManager<AppUser> userManager)
+        public CustomersController(ICustomerReadRepository customerReadRepository, ICustomerWriteRepository customerWriteRepository, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _customerReadRepository = customerReadRepository;
             _customerWriteRepository = customerWriteRepository;
         }   
@@ -45,9 +47,10 @@ namespace Bank.API.Controllers
                 PhoneNumber = model.Phone.ToString(),
                 Email = model.Email.ToString(),
                 UserName = guid.ToString(),
+                
 
             }, model.Password.ToString());
-
+            
             if (result.Succeeded)
             {
                 await _customerWriteRepository.AddAsync(new()
@@ -70,6 +73,10 @@ namespace Bank.API.Controllers
 
                 });
                 await _customerWriteRepository.SaveAsync();
+
+                //AppUser appUser = await _userManager.FindByIdAsync(guid.ToString());
+                //await _userManager.AddToRoleAsync(appUser,"Customer");
+
                 return Ok();
             }
             else { return BadRequest(result); }

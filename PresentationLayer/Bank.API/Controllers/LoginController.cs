@@ -44,10 +44,10 @@ namespace Bank.API.Controllers
             Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.CheckPasswordSignInAsync(userr, user.Password, false);
             if (result.Succeeded) {
                Token token = _token.CreateToken(5);
-                
+                token.Id = id;
 
                 // throw new Exception("Kullanıcı başarılı giriş yaptı.");
-                return Ok(token.AccessToken.ToString());
+                return Ok(token);
             }
             return Ok();
         }

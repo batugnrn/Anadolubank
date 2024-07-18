@@ -8,6 +8,7 @@ namespace Bank.Application.DTOs
 {
     public class Token
     {
+        public string Id { get; set; }
         public string AccessToken { get; set; }
         public DateTime ExpirationTime { get; set; }
     }

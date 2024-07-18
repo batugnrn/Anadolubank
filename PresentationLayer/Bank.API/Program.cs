@@ -1,5 +1,6 @@
 using Bank.Infrastructure;
 using Bank.Persistance;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -19,8 +20,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddAuthentication("Customer")
-    .AddJwtBearer(options =>
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer("Customer" , options =>
     {
         options.TokenValidationParameters = new()
         {
@@ -32,7 +33,7 @@ builder.Services.AddAuthentication("Customer")
             ValidAudience = builder.Configuration["Token:Audience"],
             ValidIssuer = builder.Configuration["Token:Issuer"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"])),
-
+            LifetimeValidator = (notBefore, expires, securityToken, Validationparameters) => expires != null ? expires > DateTime.UtcNow : false
         };
     });
 
@@ -51,6 +52,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
