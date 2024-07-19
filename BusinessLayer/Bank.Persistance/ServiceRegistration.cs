@@ -18,6 +18,8 @@ using Bank.Application.Repositories.AccountRepository;
 using Bank.Persistance.RepositoryConcreates.AccountConcreates;
 using Bank.Domain.Entities.Identity;
 using System.Collections.Immutable;
+using Bank.Application.Repositories.TransactionRepository;
+using Bank.Persistance.RepositoryConcreates.TransactionConcreates;
 
 namespace Bank.Persistance
 {
@@ -38,7 +40,8 @@ namespace Bank.Persistance
             service.AddScoped<ILoginWriteRepository, LoginWriteRepository>();
             service.AddScoped<IAccountReadRepository, AccountReadRepository>();
             service.AddScoped<IAccountWriteRepository, AccountWriteRepository>();
-
+            service.AddScoped<ITransactionReadRepository, TransactionReadRepository>();
+            service.AddScoped<ITransactionWriteRepository, TransactionWriteRepository>();
             
 
 

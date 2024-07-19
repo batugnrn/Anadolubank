@@ -17,6 +17,8 @@ namespace Bank.Persistance.Contexts
         public DbSet<Login> logins { get; set; }
         public DbSet<Account> accounts { get; set; }
 
+        public DbSet<Transaction> transactions { get; set; }
+
         //public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         //{
 

@@ -46,7 +46,7 @@ namespace Bank.API.Controllers
                Token token = _token.CreateToken(5);
                 token.Id = id;
 
-                // throw new Exception("Kullanıcı başarılı giriş yaptı.");  ....
+                // throw new Exception("Kullanıcı başarılı giriş yaptı."); 
                 return Ok(token);
             }
             return Ok();
