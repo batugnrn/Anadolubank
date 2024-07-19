@@ -46,7 +46,7 @@ namespace Bank.API.Controllers
                 transaction.TransactionType = TransactionTypeEnum.TransactionType.Giden_EFT.ToString();
                 transaction.DateTime = x.DateTime;
                 transaction.Amount = x.Amount;
-                transaction.newBalance = x.receiverNewBalance;
+                transaction.newBalance = x.senderNewBalance;
                 transaction.description = x.description;
                 vmCreateTransactions.Add(transaction);
             });
