@@ -64,6 +64,24 @@ namespace Bank.Persistance.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "transactions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    senderAccountNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    receiverAccountNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Amount = table.Column<float>(type: "real", nullable: false),
+                    senderNewBalance = table.Column<float>(type: "real", nullable: false),
+                    receiverNewBalance = table.Column<float>(type: "real", nullable: false),
+                    description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_transactions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "customers",
                 columns: table => new
                 {
@@ -78,15 +96,14 @@ namespace Bank.Persistance.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Adress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AccountNumber = table.Column<int>(type: "int", nullable: false),
-                    AccountNumber1 = table.Column<int>(type: "int", nullable: false)
+                    AccountNumber = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_customers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_customers_accounts_AccountNumber1",
-                        column: x => x.AccountNumber1,
+                        name: "FK_customers_accounts_AccountNumber",
+                        column: x => x.AccountNumber,
                         principalTable: "accounts",
                         principalColumn: "AccountNumber",
                         onDelete: ReferentialAction.Cascade);
@@ -256,9 +273,9 @@ namespace Bank.Persistance.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_customers_AccountNumber1",
+                name: "IX_customers_AccountNumber",
                 table: "customers",
-                column: "AccountNumber1");
+                column: "AccountNumber");
 
             migrationBuilder.CreateIndex(
                 name: "IX_logins_CustomersId",
@@ -285,6 +302,9 @@ namespace Bank.Persistance.Migrations
 
             migrationBuilder.DropTable(
                 name: "logins");
+
+            migrationBuilder.DropTable(
+                name: "transactions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

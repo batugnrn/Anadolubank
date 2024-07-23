@@ -25,11 +25,11 @@ namespace Bank.API.Controllers
             _transactionWriteRepository = transactionWriteRepository;
         }
         [HttpPost]
-        public async Task<IActionResult> SentEft(string myId, int senderAccountNumber, float amount, string? message)
+        public async Task<IActionResult> SentEft(int receiverAccountNumber, int senderAccountNumber, float amount, string? message)
         {
             
-            Account sender = await _accountReadRepository.GetByIdAsync(myId);
-            Account receiver = await _accountReadRepository.GetSingleAsync(x=>x.AccountNumber == senderAccountNumber);
+            Account sender = await _accountReadRepository.GetSingleAsync(x=>x.AccountNumber == senderAccountNumber);
+            Account receiver = await _accountReadRepository.GetSingleAsync(x=>x.AccountNumber == receiverAccountNumber);
             if (receiver != null)
             {
                 if (sender.Balance > amount)

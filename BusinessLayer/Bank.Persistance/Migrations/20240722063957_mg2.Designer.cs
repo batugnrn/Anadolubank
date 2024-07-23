@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bank.Persistance.Migrations
 {
     [DbContext(typeof(BankApiDbContext))]
-    [Migration("20240718133819_mg4")]
-    partial class mg4
+    [Migration("20240722063957_mg2")]
+    partial class mg2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,9 +50,6 @@ namespace Bank.Persistance.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AccountNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AccountNumber1")
                         .HasColumnType("int");
 
                     b.Property<string>("Adress")
@@ -95,7 +92,7 @@ namespace Bank.Persistance.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountNumber1");
+                    b.HasIndex("AccountNumber");
 
                     b.ToTable("customers");
                 });
@@ -356,7 +353,7 @@ namespace Bank.Persistance.Migrations
                 {
                     b.HasOne("Bank.Domain.Entities.Account", "Account")
                         .WithMany()
-                        .HasForeignKey("AccountNumber1")
+                        .HasForeignKey("AccountNumber")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

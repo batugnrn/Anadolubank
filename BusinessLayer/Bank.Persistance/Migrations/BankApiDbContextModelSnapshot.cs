@@ -50,9 +50,6 @@ namespace Bank.Persistance.Migrations
                     b.Property<int>("AccountNumber")
                         .HasColumnType("int");
 
-                    b.Property<int>("AccountNumber1")
-                        .HasColumnType("int");
-
                     b.Property<string>("Adress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -93,7 +90,7 @@ namespace Bank.Persistance.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountNumber1");
+                    b.HasIndex("AccountNumber");
 
                     b.ToTable("customers");
                 });
@@ -354,7 +351,7 @@ namespace Bank.Persistance.Migrations
                 {
                     b.HasOne("Bank.Domain.Entities.Account", "Account")
                         .WithMany()
-                        .HasForeignKey("AccountNumber1")
+                        .HasForeignKey("AccountNumber")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

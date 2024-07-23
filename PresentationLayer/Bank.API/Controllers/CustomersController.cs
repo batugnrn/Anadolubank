@@ -1,11 +1,17 @@
 ﻿using Bank.Application.Abstractions;
+using Bank.Application.CQRS.Commands.RequestCommands;
+using Bank.Application.CQRS.Commands.ResponseCommands;
+using Bank.Application.CQRS.Queries.RequestQueries;
+using Bank.Application.CQRS.Queries.ResponseQueries;
 using Bank.Application.Repositories.CustomerRepository;
 using Bank.Application.ViewModels.Customers;
 using Bank.Domain.Entities;
 using Bank.Domain.Entities.Identity;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bank.API.Controllers
 {
@@ -13,98 +19,42 @@ namespace Bank.API.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager;
-        //private readonly RoleManager<AppRole> _roleManager;
-        private readonly ICustomerReadRepository _customerReadRepository;
-        private readonly ICustomerWriteRepository _customerWriteRepository;
-        public CustomersController(ICustomerReadRepository customerReadRepository, ICustomerWriteRepository customerWriteRepository, UserManager<AppUser> userManager)//, RoleManager<AppRole> roleManager)
+        private readonly IMediator _mediator;
+        public CustomersController(IMediator mediator)
         {
-            _userManager = userManager;
-          //  _roleManager = roleManager;
-            _customerReadRepository = customerReadRepository;
-            _customerWriteRepository = customerWriteRepository;
+            _mediator = mediator;
         }   
         
         [HttpGet]
-        public async Task<IActionResult> GetCustomers()
+        public async Task<IActionResult> GetAllCustomers([FromRoute]GetAllCustomersQueryRequest allCustomersQueryRequest)
         {
-            return Ok(_customerReadRepository.GetAll());
+            GetAllCustomersQueryResponse response =  await _mediator.Send(allCustomersQueryRequest);
+            return Ok(response);
         }
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetCustomer(string id)
+
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> GetCustomerById([FromRoute]GetCustomerByIdQueryRequest getCustomerByIdQueryRequest)
         {
-           Customers c = await _customerReadRepository.GetByIdAsync(id);
-           return Ok(c);
+            GetCustomerByIdQueryResponse response = await _mediator.Send(getCustomerByIdQueryRequest);
+            return Ok(response);
         }
         [HttpPost]
-        public async Task<IActionResult> PostCustomer(VmCreateCustomer model)
+        public async Task<IActionResult> PostCustomer(PostCustomerCommandRequest postCustomerCommandRequest)
         {
-            Guid guid = Guid.NewGuid();
-            var result = await _userManager.CreateAsync(new()
-            {
-                Id = guid.ToString(),
-                Tcno = model.Tcno.ToString(),
-                PhoneNumber = model.Phone.ToString(),
-                Email = model.Email.ToString(),
-                UserName = guid.ToString(),
-
-            }, model.Password.ToString());
-
-
-            if (result.Succeeded)
-            {
-                await _customerWriteRepository.AddAsync(new()
-                {
-                    Id = guid,
-                    Name = model.Name,
-                    Surname = model.Surname,
-                    Gender = model.Gender,
-                    Email = model.Email,
-                    Birthday = model.Birthday,
-                    Adress = model.Adress,
-                    PhoneNumber = model.Phone,
-                    Tcno = model.Tcno,
-                    Password = model.Password,
-                    Account = new()
-                     {
-                        Id = guid,
-                        Balance = 0,
-                     }
-
-                });
-                await _customerWriteRepository.SaveAsync();
-                //AppUser appUser = await _userManager.FindByIdAsync(guid.ToString());
-                //await _userManager.AddToRoleAsync(appUser,"Customer");
-
-
-                return Ok();
-            }
-            else { return BadRequest(result); }
-
-            
+            PostCustomerCommandResponse response = await _mediator.Send(postCustomerCommandRequest);
+            return Ok(response);
         }
         [HttpPut]
-        public async Task<IActionResult> PutCustomer(VmCreateCustomer model, string id)
+        public async Task<IActionResult> PutCustomer(PutCustomerCommandRequest putCustomerCommandRequest)
         {
-            Customers c = await _customerReadRepository.GetByIdAsync(id);
-            c.Name = model.Name;
-            c.Surname = model.Surname;
-            c.Gender = model.Gender;
-            c.Email = model.Email;
-            c.Birthday = model.Birthday;
-            c.Adress = model.Adress;
-            c.PhoneNumber = model.Phone;
-            c.Tcno = model.Tcno;
-            c.Password = model.Password;
-            await _customerWriteRepository.SaveAsync();
-            return Ok();
+            PutCustomerCommandResponse response = await _mediator.Send(putCustomerCommandRequest);
+            return Ok(response);
         }
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCustomer(string id)
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> DeleteCustomer(DeleteCustomerCommandRequest deleteCustomerCommandRequest)
         {
-            await _customerWriteRepository.RemoveAsync(id);
-            await _customerWriteRepository.SaveAsync();
-            return Ok();
+            DeleteCustomerCommandResponse response = await _mediator.Send(deleteCustomerCommandRequest);
+            return Ok(response);
         }
     }
 }

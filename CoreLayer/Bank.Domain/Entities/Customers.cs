@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bank.Domain.Entities
 {
@@ -18,6 +19,7 @@ namespace Bank.Domain.Entities
         [Required]
         public string Gender { get; set; }
         [MaxLength(11)]
+        [MinLength(11)]
         [Required]
         public long Tcno { get; set; }
         [Required]
@@ -34,7 +36,7 @@ namespace Bank.Domain.Entities
         ///public ICollection<Account> Accounts { get; set; }
         [Required]
         public string Password { get; set; }
-        public int AccountNumber { get; set; }
+        //public int AccountNumber { get; set; }
         public Account Account { get; set; }
     }
 }

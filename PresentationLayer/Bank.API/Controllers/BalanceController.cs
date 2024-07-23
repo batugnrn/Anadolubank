@@ -10,7 +10,7 @@ namespace Bank.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Customer")]
+    //[Authorize(AuthenticationSchemes = "Customer")]
 
     public class BalanceController : ControllerBase
     {
@@ -19,15 +19,21 @@ namespace Bank.API.Controllers
         public BalanceController(IAccountReadRepository accountReadRepository)
         {
             _accountReadRepository = accountReadRepository;
-
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBalance(string id)
+        public async Task<IActionResult> GetBalanceById(string id)
         {
             // Account c =  _customerReadRepository.GetWhere(x => x.Account.Id == Guid.Parse(id));
             Account c = await _accountReadRepository.GetByIdAsync(id);
-            return Ok(c.Balance);
+            return Ok(c);
         }
+        //[HttpGet("{accountNumber}")]
+        //public async Task<IActionResult> GetBalanceByAccountNumber(int accountNumber)
+        //{
+        //    Account c = await _accountReadRepository.GetWhere(x => x.AccountNumber == accountNumber).FirstOrDefaultAsync();
+        //    //Account c = await _accountReadRepository.GetByIdAsync(accountNumber);
+        //    return Ok(c);
+        //}
     }
 }

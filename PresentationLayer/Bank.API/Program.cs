@@ -1,3 +1,4 @@
+using Bank.Application;
 using Bank.Infrastructure;
 using Bank.Persistance;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,10 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 //policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()
 //));
 
-
-
+builder.Services.AddApplicationServices();
 builder.Services.AddPersistanceServices();
 builder.Services.AddInfrastactureServices();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -36,7 +37,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             LifetimeValidator = (notBefore, expires, securityToken, Validationparameters) => expires != null ? expires > DateTime.UtcNow : false
         };
     });
-
 
 
 var app = builder.Build();

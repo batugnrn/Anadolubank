@@ -18,7 +18,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\BusinessLayer\Bank.Infrastructure\Bank.Infrastructure.csproj" />
     <ProjectReference Include="..\..\BusinessLayer\Bank.Persistance\Bank.Persistance.csproj" />
-    <ProjectReference Include="..\..\CoreLayer\Bank.Application\Bank.Application.csproj" />
   </ItemGroup>
 
 </Project>
