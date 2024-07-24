@@ -38,18 +38,21 @@ namespace Bank.API.Controllers
             GetCustomerByIdQueryResponse response = await _mediator.Send(getCustomerByIdQueryRequest);
             return Ok(response);
         }
+
         [HttpPost]
         public async Task<IActionResult> PostCustomer(PostCustomerCommandRequest postCustomerCommandRequest)
         {
             PostCustomerCommandResponse response = await _mediator.Send(postCustomerCommandRequest);
             return Ok(response);
         }
+
         [HttpPut]
         public async Task<IActionResult> PutCustomer(PutCustomerCommandRequest putCustomerCommandRequest)
         {
             PutCustomerCommandResponse response = await _mediator.Send(putCustomerCommandRequest);
             return Ok(response);
         }
+
         [HttpDelete("{Id}")]
         public async Task<IActionResult> DeleteCustomer(DeleteCustomerCommandRequest deleteCustomerCommandRequest)
         {

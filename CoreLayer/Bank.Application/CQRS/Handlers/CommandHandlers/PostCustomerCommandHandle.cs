@@ -28,11 +28,14 @@ namespace Bank.Application.CQRS.Handlers.CommandHandlers
 
         public async Task<PostCustomerCommandResponse> Handle(PostCustomerCommandRequest request, CancellationToken cancellationToken)
         {
-            IQueryable<Customers> customers = _customerReadRepository.GetWhere(x => x.Tcno == request.Tcno);
-            if (customers.Any()) throw new Exception("Bu Tcno'ya ait kullanıcı zaten var!..");
+            IQueryable<Customers> customer1 = _customerReadRepository.GetWhere(x => x.Tcno == request.Tcno);
+            if (customer1.Any()) throw new Exception("Bu Tcno'ya ait kullanıcı zaten var!..");
 
-            IQueryable<Customers> customer = _customerReadRepository.GetWhere(x => x.PhoneNumber == request.Phone);
-            if (customer.Any()) throw new Exception("Bu Numaraya ait kullanıcı zaten var!..");
+            IQueryable<Customers> customer2 = _customerReadRepository.GetWhere(x => x.PhoneNumber == request.Phone);
+            if (customer2.Any()) throw new Exception("Bu Numaraya ait kullanıcı zaten var!..");
+
+            IQueryable<Customers> customer3 = _customerReadRepository.GetWhere(x => x.Email == request.Email);
+            if (customer3.Any()) throw new Exception("Bu Maile ait kullanıcı zaten var!..");
 
             Guid guid = Guid.NewGuid();
             var result = await _userManager.CreateAsync(new()
