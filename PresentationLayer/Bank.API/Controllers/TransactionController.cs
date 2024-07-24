@@ -28,11 +28,5 @@ namespace Bank.API.Controllers
             GetAccountTransactionQueryResponse response = await _mediator.Send(getAccountTransactionQueryRequest);
             return Ok(response);
         }
-
-
-
-
-
-
     }
 }
