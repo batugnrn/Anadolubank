@@ -20,7 +20,6 @@ namespace Bank.Application.CQRS.Handlers.QueryHandlers
         {
             _transactionReadRepository = transactionReadRepository;
         }
-
         public async Task<GetAccountTransactionQueryResponse> Handle(GetAccountTransactionQueryRequest request, CancellationToken cancellationToken)
         {
             List<VmCreateTransaction> vmCreateTransactions = new List<VmCreateTransaction>();
@@ -55,10 +54,7 @@ namespace Bank.Application.CQRS.Handlers.QueryHandlers
             return new GetAccountTransactionQueryResponse
             {
                 vmCreateTransactions = vmCreateTransactions,
-            };
-          
-           
-            
+            };  
         }
     }
 }

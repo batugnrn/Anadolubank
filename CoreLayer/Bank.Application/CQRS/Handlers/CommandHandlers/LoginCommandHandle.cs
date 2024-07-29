@@ -28,7 +28,6 @@ namespace Bank.Application.CQRS.Handlers.CommandHandlers
             _customerReadRepository = customerReadRepository;
             _token = token;
         }
-
         public async Task<LoginCommandResponse> Handle(LoginCommandRequest request, CancellationToken cancellationToken)
         {
             Customers custom = _customerReadRepository.GetWhere(x => x.Tcno.ToString() == request.Tcno).FirstOrDefault();
@@ -45,8 +44,6 @@ namespace Bank.Application.CQRS.Handlers.CommandHandlers
             {
                 Token token = _token.CreateToken(5);
                 token.Id = id;
-
-                // throw new Exception("Kullanıcı başarılı giriş yaptı."); 
                 return new LoginCommandResponse
                 {
                     Token = token,

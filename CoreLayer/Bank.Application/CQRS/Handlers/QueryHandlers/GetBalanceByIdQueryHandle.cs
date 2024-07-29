@@ -17,7 +17,6 @@ namespace Bank.Application.CQRS.Handlers.QueryHandlers
     public class GetBalanceByIdQueryHandle : IRequestHandler<GetBalanceByIdQueryRequest, GetBalanceByIdQueryResponse>
     {
         private readonly IAccountReadRepository _accountReadRepository;
-
         public GetBalanceByIdQueryHandle(IAccountReadRepository accountReadRepository)
         {
             _accountReadRepository = accountReadRepository;
@@ -31,16 +30,10 @@ namespace Bank.Application.CQRS.Handlers.QueryHandlers
                 Balance = item.Balance,
                 AccountNumber = item.AccountNumber,
             }).ToList();
-
             return new GetBalanceByIdQueryResponse
             {
                 Accounts = responseList
-            };
-
-
-
-
-            
+            }; 
         }
     }
 }

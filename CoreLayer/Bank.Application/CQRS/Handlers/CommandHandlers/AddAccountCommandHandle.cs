@@ -18,7 +18,6 @@ namespace Bank.Application.CQRS.Handlers.CommandHandlers
         {
             _accountWriteRepository = accountWriteRepository;
         }
-
         public async Task<AddAccountCommandResponse> Handle(AddAccountCommandRequest request, CancellationToken cancellationToken)
         {
             var a = await _accountWriteRepository.AddAsync(new()

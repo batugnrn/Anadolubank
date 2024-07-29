@@ -1,4 +1,4 @@
-﻿using Bank.Application.ViewModels.Transaction;
+﻿using Bank.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Bank.Application.CQRS.Queries.ResponseQueries
 {
-    public class GetAccountTransactionQueryResponse
+    public class GetBalanceByAccountNumberQueryResponse
     {
-        public List<VmCreateTransaction> vmCreateTransactions {  get; set; } 
+        public IQueryable<Account> Account { get; set; }
     }
 }

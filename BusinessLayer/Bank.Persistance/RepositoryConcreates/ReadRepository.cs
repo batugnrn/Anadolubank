@@ -18,24 +18,17 @@ namespace Bank.Persistance.RepositoryConcreates
         {
             bankApiDbContext = context;
         }
-
         public DbSet<type> Table => bankApiDbContext.Set<type>();
-
         public IQueryable<type> GetAll()
         => Table;
-
         public int GetAllCount()
         {
             return Table.Count();
         }
-
         public async Task<type> GetByIdAsync(string id)
         => await Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id));
-
-
         public async Task<type> GetSingleAsync(Expression<Func<type, bool>> method)
         => await Table.FirstOrDefaultAsync(method);
-
         public IQueryable<type> GetWhere(Expression<Func<type, bool>> method)
         => Table.Where(method);
     }

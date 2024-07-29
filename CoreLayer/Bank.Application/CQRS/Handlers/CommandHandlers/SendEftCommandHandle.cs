@@ -23,7 +23,6 @@ namespace Bank.Application.CQRS.Handlers.CommandHandlers
             _accountWriteRepository = accountWriteRepository;
             _transactionWriteRepository = transactionWriteRepository;
         }
-
         public async Task<SendEftCommandResponse> Handle(SendEftCommandRequest request, CancellationToken cancellationToken)
         {
             Account sender = await _accountReadRepository.GetSingleAsync(x => x.AccountNumber == request.senderAccountNumber);
@@ -53,7 +52,6 @@ namespace Bank.Application.CQRS.Handlers.CommandHandlers
                     {
                         Account = sender,
                     };
-
                 }
                 else
                 {

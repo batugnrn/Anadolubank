@@ -13,31 +13,25 @@ namespace Bank.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Customer")]
-
+    //[Authorize(AuthenticationSchemes = "Customer")]
     public class BalanceController : ControllerBase
     {
         private readonly IMediator _mediator;
-
         public BalanceController(IMediator mediator)
         {
             _mediator = mediator;   
         }
-
         [HttpGet("{Id}")]
         public async Task<IActionResult> GetBalanceById([FromRoute]GetBalanceByIdQueryRequest getBalanceByIdQueryRequest)
         {
             GetBalanceByIdQueryResponse response = await _mediator.Send(getBalanceByIdQueryRequest);
             return Ok(response);
         }
-
-
-        //[HttpGet("{accountNumber}")]
-        //public async Task<IActionResult> GetBalanceByAccountNumber(int accountNumber)
-        //{
-        //    Account c = await _accountReadRepository.GetWhere(x => x.AccountNumber == accountNumber).FirstOrDefaultAsync();
-        //    //Account c = await _accountReadRepository.GetByIdAsync(accountNumber);
-        //    return Ok(c);
-        //}
+        [HttpGet("{accountNumber}/byAccountNumber")]
+        public async Task<IActionResult> GetBalanceByAccountNumber([FromRoute]GetBalanceByAccountNumberQueryRequest getBalanceByAccountNumberQueryRequest)
+        {
+            GetBalanceByAccountNumberQueryResponse response = await _mediator.Send(getBalanceByAccountNumberQueryRequest);
+            return Ok(response);
+        }
     }
 }

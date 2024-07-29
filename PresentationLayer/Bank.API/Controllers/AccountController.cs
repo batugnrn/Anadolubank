@@ -10,7 +10,6 @@ namespace Bank.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = "Customer")]
-
     public class AccountController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -18,7 +17,6 @@ namespace Bank.API.Controllers
         {
             _mediator = mediator;
         }
-
         [HttpPost("{Id}")]
         public async Task<IActionResult> AddAccount([FromRoute]AddAccountCommandRequest addAccountCommandRequest)
         {

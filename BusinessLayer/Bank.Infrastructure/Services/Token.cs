@@ -15,12 +15,10 @@ namespace Bank.Infrastructure.Services
     public class Token : IToken
     {
         private readonly IConfiguration _configuration;
-
         public Token(IConfiguration configuration)
         {
             _configuration = configuration;
         }
-
         public Application.DTOs.Token CreateToken(int minute)
         {
             Application.DTOs.Token token = new();
@@ -34,10 +32,9 @@ namespace Bank.Infrastructure.Services
                 expires: token.ExpirationTime,
                 notBefore: DateTime.UtcNow.AddMinutes(1),
                 signingCredentials: signingCredentials
-                );
+            );
 
             JwtSecurityTokenHandler jwtSecurityTokenHandler = new();
-            //var t = jwtSecurityTokenHandler.WriteToken(jwtSecurityToken).ToString();
             token.AccessToken = jwtSecurityTokenHandler.WriteToken(jwtSecurityToken);
             return token;
         }

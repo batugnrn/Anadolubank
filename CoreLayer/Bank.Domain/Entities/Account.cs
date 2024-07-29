@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bank.Domain.Entities
 {
-    public class Account:Base
+    public class Account : Base
     {
         [Key]
         public int AccountNumber { get; set; }

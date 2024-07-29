@@ -3,7 +3,6 @@ using Bank.Application.CQRS.Commands.RequestCommands;
 using Bank.Application.CQRS.Commands.ResponseCommands;
 using Bank.Application.DTOs;
 using Bank.Application.Repositories.CustomerRepository;
-using Bank.Application.ViewModels.Customers;
 using Bank.Domain.Entities;
 using Bank.Domain.Entities.Identity;
 using MediatR;
@@ -24,7 +23,6 @@ namespace Bank.API.Controllers
         {
             _mediator = mediator;
         }
-
         [HttpPost]
         public async Task<IActionResult> Login(LoginCommandRequest loginCommandRequest)
         {

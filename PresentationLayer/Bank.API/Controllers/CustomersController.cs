@@ -4,7 +4,6 @@ using Bank.Application.CQRS.Commands.ResponseCommands;
 using Bank.Application.CQRS.Queries.RequestQueries;
 using Bank.Application.CQRS.Queries.ResponseQueries;
 using Bank.Application.Repositories.CustomerRepository;
-using Bank.Application.ViewModels.Customers;
 using Bank.Domain.Entities;
 using Bank.Domain.Entities.Identity;
 using MediatR;

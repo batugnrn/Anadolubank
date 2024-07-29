@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Bank.Application.Repositories
 {
-    public interface IReadRepository<type> : IRepository<type> where type : Base  //select sorgu işlemleri
+    public interface IReadRepository<type> : IRepository<type> where type : Base      //select sorgu işlemleri
     {
-        IQueryable<type> GetAll();         /// tüm elemanları getir
+        IQueryable<type> GetAll();                                                     /// tüm elemanları getir
         IQueryable<type> GetWhere(Expression<Func<type, bool>> method);
         public int GetAllCount();
-        Task<type> GetSingleAsync(Expression<Func<type, bool>> method);  // şartı karşılayan ilk eleman
+        Task<type> GetSingleAsync(Expression<Func<type, bool>> method);               // şartı karşılayan ilk eleman
         Task<type> GetByIdAsync(string id);
     }
 }

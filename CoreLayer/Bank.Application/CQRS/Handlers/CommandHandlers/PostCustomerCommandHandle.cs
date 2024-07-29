@@ -18,14 +18,12 @@ namespace Bank.Application.CQRS.Handlers.CommandHandlers
         private readonly ICustomerReadRepository _customerReadRepository;
         private readonly ICustomerWriteRepository _customerWriteRepository;
         private readonly UserManager<AppUser> _userManager;
-
         public PostCustomerCommandHandle(ICustomerReadRepository customerReadRepository, ICustomerWriteRepository customerWriteRepository, UserManager<AppUser> userManager)
         {
             _customerReadRepository = customerReadRepository;
             _customerWriteRepository = customerWriteRepository;
             _userManager = userManager;
         }
-
         public async Task<PostCustomerCommandResponse> Handle(PostCustomerCommandRequest request, CancellationToken cancellationToken)
         {
             IQueryable<Customers> customer1 = _customerReadRepository.GetWhere(x => x.Tcno == request.Tcno);
@@ -45,9 +43,7 @@ namespace Bank.Application.CQRS.Handlers.CommandHandlers
                 PhoneNumber = request.Phone.ToString(),
                 Email = request.Email.ToString(),
                 UserName = guid.ToString(),
-
             }, request.Password.ToString());
-
 
             if (result.Succeeded)
             {
@@ -68,10 +64,8 @@ namespace Bank.Application.CQRS.Handlers.CommandHandlers
                         Id = guid,
                         Balance = 0,
                     }
-
                 });
                 await _customerWriteRepository.SaveAsync();
-
                 return new();
             }
             else 
