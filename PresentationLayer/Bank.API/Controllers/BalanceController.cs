@@ -13,7 +13,7 @@ namespace Bank.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(AuthenticationSchemes = "Customer")]
+    [Authorize(AuthenticationSchemes = "Customer")]
     public class BalanceController : ControllerBase
     {
         private readonly IMediator _mediator;
