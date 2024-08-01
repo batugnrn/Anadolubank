@@ -19,7 +19,7 @@ namespace Bank.API.Controllers
         private readonly IMediator _mediator;
         public BalanceController(IMediator mediator)
         {
-            _mediator = mediator;   
+            _mediator = mediator;
         }
         [HttpGet("{Id}")]
         public async Task<IActionResult> GetBalanceById([FromRoute]GetBalanceByIdQueryRequest getBalanceByIdQueryRequest)

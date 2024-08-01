@@ -17,7 +17,6 @@ namespace Bank.Application.ViewModels.Transaction
             ATM_Para_Yatırma,
             Yatırım,
             Pos
-
         }
     }
 }

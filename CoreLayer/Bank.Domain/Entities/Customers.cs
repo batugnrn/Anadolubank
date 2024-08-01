@@ -37,6 +37,6 @@ namespace Bank.Domain.Entities
         [Required]
         public string Password { get; set; }
         //public int AccountNumber { get; set; }
-        public Account Account { get; set; }
+        public Account? Account { get; set; }
     }
 }

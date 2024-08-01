@@ -23,5 +23,11 @@ namespace Bank.API.Controllers
             AddAccountCommandResponse response = await _mediator.Send(addAccountCommandRequest);
             return Ok(response);
         }
+        [HttpDelete("{AccountNumber}")]
+        public async Task<IActionResult> RemoveAccount([FromRoute]RemoveAccountCommandRequest removeAccountCommandRequest)
+        {
+            RemoveAccountCommandResponse response = await _mediator.Send(removeAccountCommandRequest);
+            return Ok(response);
+        }
     }
 }
